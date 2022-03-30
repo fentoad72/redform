@@ -4,7 +4,7 @@ import numpy as np
 
 import matplotlib.pyplot as plt
 
-tiny = np.longdouble(1.e-6)  # small number to prevent divide by zero
+tiny = np.float64(1.e-6)  # small number to prevent divide by zero
 tiny_sq = tiny*tiny
 
 def grand_func(Avect,Xvect,FuncFit,error):
@@ -24,13 +24,16 @@ def grand_func(Avect,Xvect,FuncFit,error):
 #    Return deriv as value of 1st derivaties (matrix)
 
 # determine # of functions
-    nfunc_gf = len(FuncFit)/3
+    nfunc_gf = int(len(FuncFit)/3)
 # deduce length of each X
-    index_gf = len(Xvect)/nfunc_gf
-    pass
+    index_gf = int(len(Xvect)/nfunc_gf)
 
-    Xsum = np.zeros(index_gf,dtype=np.longdouble)
-    dfdx = np.zeros((index_gf,len(Avect)),dtype=np.longdouble)
+#   print('nfunc_gf',nfunc_gf,type(nfunc_gf))
+#   print('index_gf',index_gf,type(index_gf))
+ 
+
+    Xsum = np.zeros(index_gf,dtype=np.float64)
+    dfdx = np.zeros((index_gf,len(Avect)),dtype=np.float64)
 
 #    print 'FuncFit',FuncFit
 
@@ -45,8 +48,10 @@ def grand_func(Avect,Xvect,FuncFit,error):
         Xval=0.
 
         for j_gf in range(0,len(FuncFit),3):
-            ii_gf = i_gf+j_gf*index_gf/3
+            ii_gf = i_gf+j_gf*int(index_gf/3)
             pass
+
+#           print('ii_gf',ii_gf,type(ii_gf))
 
             if (FuncFit[j_gf]==0):
                 Xval, dfdx[i_gf][j_gf:j_gf+3] = poly_func(Avect[j_gf:j_gf+3],Xvect[ii_gf])
@@ -76,7 +81,7 @@ def poly_func(Avector,Xx):
 #    ReturnsPolySum = value
 #    Returns dpda = 1st derivative (vector)
 
-    dpda = np.zeros(3,dtype=np.longdouble)
+    dpda = np.zeros(3,dtype=np.float64)
 #
     PolySum = Avector[0]*Xx + Avector[1]*Xx*Xx + Avector[2]*Xx*Xx*Xx
     dpda[0] = Xx
@@ -88,15 +93,15 @@ def poly_func(Avector,Xx):
 def poly_init(expected_in,expected_out):
 
 # for a given input and output, calculate coefficents for a linear polynomial
- #   GaussVect = np.zeros(3,dtype=np.longdouble)
+ #   GaussVect = np.zeros(3,dtype=np.float64)
 
-    A = np.mean(expected_out,dtype=np.longdouble)
+    A = np.mean(expected_out,dtype=np.float64)
     B = 0.
     C = 0.
 
 #    C = np.std(expected_in,dtype=np.double)*np.sqrt(np.pi)
 
-    PolyVect = np.asarray([A,B,C],dtype=np.longdouble)
+    PolyVect = np.asarray([A,B,C],dtype=np.float64)
 
     return PolyVect
 
@@ -109,7 +114,7 @@ def exp_func(Avector,Xx):
 
 # make a local copy of the Avector
     Aloc = np.copy(Avector)
-    dxda = np.zeros(3,dtype=np.longdouble)
+    dxda = np.zeros(3,dtype=np.float64)
 
 # and set Avector[2] = tiny_sq if it is zero
     if (abs(Aloc[2]) < (tiny_sq) ):
@@ -151,7 +156,7 @@ def gauss_func(Avector,Xx):
     B = Aloc[1]
     C = Aloc[2]
 
-    dgda = np.zeros(3,dtype=np.longdouble)
+    dgda = np.zeros(3,dtype=np.float64)
 
 # and set Avector[2] = tiny_sq if it is zero
     if (abs(C) < tiny_sq ):
@@ -172,7 +177,7 @@ def gauss_func(Avector,Xx):
 def gauss_init(expected_out,expected_in):
 
 # for a given input and output, calculate coefficents for a Gaussian distribution
-    GaussVect = np.zeros(3,dtype=np.longdouble)
+    GaussVect = np.zeros(3,dtype=np.float64)
 
     A = np.mean(expected_out)
 
@@ -205,18 +210,18 @@ def mrqcof(Avect,Xvect,Yvect,Yerr,FuncFit,error):
 # chisquared is the return value, and error is passed upward if there is an error
 
 #Ymod is the model value based on the fitting function
-    Ymod = np.zeros(len(Xvect),dtype=np.longdouble)
+    Ymod = np.zeros(len(Xvect),dtype=np.float64)
 
 #initialize alpha[m,m] and beta[m] as zero
 
     chi_sq = 0.
-    weight = np.zeros(len(Xvect),dtype=np.longdouble)
+    weight = np.zeros(len(Xvect),dtype=np.float64)
 
-    alpha = np.zeros((len(Avect),len(Avect)),dtype=np.longdouble)
-    beta = np.zeros(len(Avect),dtype=np.longdouble)
-    dyda = np.zeros((len(Xvect),len(Avect)),dtype=np.longdouble) # 1st derivative
+    alpha = np.zeros((len(Avect),len(Avect)),dtype=np.float64)
+    beta = np.zeros(len(Avect),dtype=np.float64)
+    dyda = np.zeros((len(Xvect),len(Avect)),dtype=np.float64) # 1st derivative
 
-    delta_y = np.zeros(len(Yvect),dtype=np.longdouble)
+    delta_y = np.zeros(len(Yvect),dtype=np.float64)
 
 
 ### then Y(x) = A1(x) + A2(x) + ...
@@ -434,12 +439,12 @@ def mrqmin(Avect,Xvect,Yvect,Yerr,FuncFit,error):
 
 
 #alpha doubles as the covariance matrix
-    alpha = np.zeros((len(Avect),len(Avect)),dtype=np.longdouble)
-    covar = np.zeros((len(Avect),len(Avect)),dtype=np.longdouble)
+    alpha = np.zeros((len(Avect),len(Avect)),dtype=np.float64)
+    covar = np.zeros((len(Avect),len(Avect)),dtype=np.float64)
 
 # beta, or da, is local to mrqmin)
-    beta = np.zeros(len(Avect),dtype=np.longdouble)
-    delta_A = np.zeros(len(Avect),dtype=np.longdouble)
+    beta = np.zeros(len(Avect),dtype=np.float64)
+    delta_A = np.zeros(len(Avect),dtype=np.float64)
 
 
 ### mrq min in NR does a lot of things... simplify?

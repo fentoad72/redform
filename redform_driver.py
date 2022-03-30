@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import os
 import sys
 
-os.chdir('/Users/arbetter/Desktop/python/RedForm/')
+os.chdir('/Users/arbetter/Coding/python/redform/')
 
 sys.path.append(os.getcwd())
 
@@ -15,13 +15,13 @@ import redform_mod as rfm
 
 def gj_driver():
 
-    Atrue = np.array([[1,1,1],[0,2,5],[2,5,-1]],dtype=np.longdouble)
-    Bvect = np.array([6,-4,27],dtype=np.longdouble)
+    Atrue = np.array([[1,1,1],[0,2,5],[2,5,-1]],dtype=np.float64)
+    Bvect = np.array([6,-4,27],dtype=np.float64)
 
     Ainv, Bsolv = gaussjordan(Atrue,Bvect)
 
     Pmod = np.zeros(len(Bvect))
-    dPdx = np.zeros([len(Bvect),len(Bvect)],dtype=np.longdouble)
+    dPdx = np.zeros([len(Bvect),len(Bvect)],dtype=np.float64)
 
     for i in range(len(Bsolv)):
         Pmod[i],dPdx[i][:] = rfm.poly_func(Atrue[i][:],Bsolv[i])
@@ -42,71 +42,71 @@ def gj_driver():
 # error flag -- will become true if grand_func is called with an unrecognized form
 error = False
 
-tiny = np.longdouble(1.e-6)  # small number to prevent divide by zero
+tiny = np.float64(1.e-6)  # small number to prevent divide by zero
 tiny_sq = tiny*tiny
 
-#Xvect = np.asarray([0.2,-1.3,4.4,-5.8,7.6,-9.0,9.9,-2.8],dtype=np.longdouble)
-#Xvect = np.arange(51,dtype=np.longdouble)*4/10. - 10.
+#Xvect = np.asarray([0.2,-1.3,4.4,-5.8,7.6,-9.0,9.9,-2.8],dtype=np.float64)
+#Xvect = np.arange(51,dtype=np.float64)*4/10. - 10.
 
-#Xextend = np.arange(21,dtype=np.longdouble) + 10.
+#Xextend = np.arange(21,dtype=np.float64) + 10.
 
 #Xvect = np.append(Xvect,Xextend)
 
-#Xvect = np.asarray([-1.,0.,1.],dtype=np.longdouble)
+#Xvect = np.asarray([-1.,0.,1.],dtype=np.float64)
 
 
 
 
 
-#Xvect = np.arange(16,dtype=np.longdouble)/5.- 3.
+#Xvect = np.arange(16,dtype=np.float64)/5.- 3.
 
 # for a vector Xvect with N data points x(N) and solutions Y(N), stddev Yerr(N)
 # M coefficients in A (so A is a M x M array)
 
 ### Assume we have same number of obs for each field Xvect
-#Yerr = np.zeros(len(Xvect),dtype=np.longdouble)
+#Yerr = np.zeros(len(Xvect),dtype=np.float64)
 
 # Definte Actual function (Y-hat) as sum of a polynomial and 2 exponentials
 
-Bpoly = np.asarray([1., 0.1 ,0.001],dtype=np.longdouble)
+Bpoly = np.asarray([1., 0.1 ,0.001],dtype=np.float64)
 #Bpoly = [0.,0.,0.]
 
-exp_factor = np.asarray([10.,-5.,5.],dtype=np.longdouble)
+exp_factor = np.asarray([10.,-5.,5.],dtype=np.float64)
 
-Bgauss = np.asarray([20.,5.5,2.5],dtype=np.longdouble)
+Bgauss = np.asarray([20.,5.5,2.5],dtype=np.float64)
 #Bgauss = [0.,0.,0.]
 
-Xtrue = np.arange(501,dtype=np.longdouble)/10. - 10.
+Xtrue = np.arange(501,dtype=np.float64)/10. - 10.
 
 x1 = -10
 x2 = 15
 y1 = -10
 y2 = 60
 
-Ytrue = np.zeros(len(Xtrue),dtype=np.longdouble)  # aka Y-hat
-Ypoly = np.zeros(len(Xtrue),dtype=np.longdouble)
-Yexp = np.zeros(len(Xtrue),dtype=np.longdouble)
-Ygauss = np.zeros(len(Xtrue),dtype=np.longdouble)
-Ycos = np.zeros(len(Xtrue),dtype=np.longdouble)
+Ytrue = np.zeros(len(Xtrue),dtype=np.float64)  # aka Y-hat
+Ypoly = np.zeros(len(Xtrue),dtype=np.float64)
+Yexp = np.zeros(len(Xtrue),dtype=np.float64)
+Ygauss = np.zeros(len(Xtrue),dtype=np.float64)
+Ycos = np.zeros(len(Xtrue),dtype=np.float64)
 
 ### Pick 3 unique Xvects...
 
-Xvect1 = np.asarray([-7.,-2.,1.,4.,8.,11.,13.,],dtype=np.longdouble)
-Xvect2 = np.asarray([-9.,-8.,-5.,-3.,-1.,15.,7.],dtype=np.longdouble)
-Xvect3 = np.asarray([0.,2.,3.,5.,6.,12.,14.],dtype=np.longdouble)
+Xvect1 = np.asarray([-7.,-2.,1.,4.,8.,11.,13.,],dtype=np.float64)
+Xvect2 = np.asarray([-9.,-8.,-5.,-3.,-1.,15.,7.],dtype=np.float64)
+Xvect3 = np.asarray([0.,2.,3.,5.,6.,12.,14.],dtype=np.float64)
 
 ### and 3 Y functions correspond
 
-Ypoly_obs = np.zeros(len(Xvect1),dtype=np.longdouble)
-Yexp_obs = np.zeros(len(Xvect2),dtype=np.longdouble)
-Ygauss_obs = np.zeros(len(Xvect3),dtype=np.longdouble)
-Ycos_error1 = np.zeros(len(Xvect1),dtype=np.longdouble)
-Ycos_error2 = np.zeros(len(Xvect2),dtype=np.longdouble)
-Ycos_error3 = np.zeros(len(Xvect3),dtype=np.longdouble)
+Ypoly_obs = np.zeros(len(Xvect1),dtype=np.float64)
+Yexp_obs = np.zeros(len(Xvect2),dtype=np.float64)
+Ygauss_obs = np.zeros(len(Xvect3),dtype=np.float64)
+Ycos_error1 = np.zeros(len(Xvect1),dtype=np.float64)
+Ycos_error2 = np.zeros(len(Xvect2),dtype=np.float64)
+Ycos_error3 = np.zeros(len(Xvect3),dtype=np.float64)
 
-Y_act1 = np.zeros(len(Xvect1),dtype=np.longdouble)
-Y_act2 = np.zeros(len(Xvect2),dtype=np.longdouble)
-Y_act3 = np.zeros(len(Xvect3),dtype=np.longdouble)
+Y_act1 = np.zeros(len(Xvect1),dtype=np.float64)
+Y_act2 = np.zeros(len(Xvect2),dtype=np.float64)
+Y_act3 = np.zeros(len(Xvect3),dtype=np.float64)
 
 ### get the true values which are y = y(A1,x1) + y(A2,x2) + y(A3,x3)
 #A1 = polynomial
@@ -168,7 +168,7 @@ plt.plot(Xvect3,Y_act3+Ycos_error3,'ro')
 
 plt.title('Input Components soln=black\nblue=poly green=gauss red=expnt')
 plt.axis([x1, x2, y1, y2])
-plt.show()
+#plt.show()
 plt.savefig('redform_inputs.png')
 
 del Ypoly,Yexp, Ycos,dum1,dum2,dum3
@@ -183,7 +183,7 @@ nexp = 0
 npoly = nfunc - nexp
 
 
-FuncFit = np.zeros(nfunc*3,dtype=long)
+FuncFit = np.zeros(nfunc*3,dtype=np.float64)
 
 for n in range(0,nexp):
     FuncFit[3*n,3*n+1,3*n+3] = 1.
@@ -191,7 +191,7 @@ for n in range(0,nexp):
 for n in range (nexp,nfunc):
     FuncFit[3*n:3*n+3] = 0.
 
-Avector = np.zeros(len(FuncFit),dtype=np.longdouble)
+Avector = np.zeros(len(FuncFit),dtype=np.float64)
 for k in range(2,len(FuncFit),3):
     Avector[k]=1.
 
@@ -205,14 +205,15 @@ Xsave = Xvect
 
 Yvect = np.append(np.append(Y_act1+Ycos_error1,Y_act2+Ycos_error2),Y_act3+Ycos_error1)
 
-Yerr = np.zeros(len(Yvect),dtype=np.longdouble)
-Yerr[:] = np.std(Yvect,dtype=np.longdouble)
+Yerr = np.zeros(len(Yvect),dtype=np.float64)
+Yerr[:] = np.std(Yvect,dtype=np.float64)
 
 del Y_act1,Y_act2,Y_act3
 del Ycos_error1,Ycos_error2,Ycos_error3
 
 error = False
 
+print('calling MRQMIN 1')
 Asolv1, chi_sq1,covar1, alpha1 = rfm.mrqmin(Avector,Xvect,Yvect,Yerr,FuncFit,error)
 
 #for j in range(len(Xvect)):
@@ -221,15 +222,15 @@ Asolv1, chi_sq1,covar1, alpha1 = rfm.mrqmin(Avector,Xvect,Yvect,Yerr,FuncFit,err
 
 ### Yfunc1 is the function created by the fit form
 
-Yfunc1 = np.zeros(len(Xtrue),dtype=np.longdouble)
-dydx1 = np.zeros([len(Xtrue),len(Avector)],dtype=np.longdouble)
+Yfunc1 = np.zeros(len(Xtrue),dtype=np.float64)
+dydx1 = np.zeros([len(Xtrue),len(Avector)],dtype=np.float64)
 Ysum=0.
 ## need to count from 1 to N (all Xvect points)
 Yfunc1,dydx1 = rfm.grand_func(Asolv1,Xtrue,FuncFit,error)
 
 ### let's call Ypoints the points prediced for Xvect
-Ypoints1 = np.zeros(len(Xvect),dtype=np.longdouble)
-dydum1 = np.zeros([len(Xvect),len(Avector)],dtype=np.longdouble)
+Ypoints1 = np.zeros(len(Xvect),dtype=np.float64)
+dydum1 = np.zeros([len(Xvect),len(Avector)],dtype=np.float64)
 
 Ypoints1,dydum1 = rfm.grand_func(Asolv1,Xvect,FuncFit,error)
 
@@ -249,7 +250,7 @@ nfunc = 1
 nexp = 1
 npoly = nfunc - nexp
 
-FuncFit = np.zeros(nfunc*3,dtype=long)
+FuncFit = np.zeros(nfunc*3,dtype=np.float64)
 
 for n in range(0,nexp):
     FuncFit[3*n:3*n+3] = 2.
@@ -257,7 +258,7 @@ for n in range(0,nexp):
 for n in range (nexp,nfunc):
     FuncFit[3*n:3*n+3] = 0.
 
-Avector = np.zeros(len(FuncFit),dtype=np.longdouble)
+Avector = np.zeros(len(FuncFit),dtype=np.float64)
 for k in range(2,len(FuncFit),3):
     Avector[k]=1.
 
@@ -267,21 +268,22 @@ del n,k,nfunc,npoly,nexp
 #Xvect = np.copy(Xvect2)
 #Yvect = np.copy(Y_act2+Ycos_error2)
 
-#Yerr = np.zeros(len(Yvect),dtype=np.longdouble)
-#Yerr[:] = np.std(Yvect,dtype=np.longdouble)
+#Yerr = np.zeros(len(Yvect),dtype=np.float64)
+#Yerr[:] = np.std(Yvect,dtype=np.float64)
 
+print('calling MRQMIN 2')
 Asolv2, chi_sq2,covar2,alpha2 = rfm.mrqmin(Avector,Xvect,Yvect,Yerr,FuncFit,error)
 #Asolv2 = np.zeros(len(Avector))
 
-Yfunc2 = np.zeros(len(Xtrue),dtype=np.longdouble)
-dydx2 = np.zeros([len(Xtrue),len(Avector)],dtype=np.longdouble)
+Yfunc2 = np.zeros(len(Xtrue),dtype=np.float64)
+dydx2 = np.zeros([len(Xtrue),len(Avector)],dtype=np.float64)
 
 ## need to count from 1 to N (all Xvect points)
 
 Yfunc2, dydx2 = rfm.grand_func(Asolv2,Xtrue,FuncFit,error)
 
-Ypoints2 = np.zeros(len(Xvect),dtype=np.longdouble)
-dydum2 = np.zeros([len(Xvect),len(Avector)],dtype=np.longdouble)
+Ypoints2 = np.zeros(len(Xvect),dtype=np.float64)
+dydum2 = np.zeros([len(Xvect),len(Avector)],dtype=np.float64)
 
 Ypoints2, dydum = rfm.grand_func(Asolv2,Xvect,FuncFit,error)
 
@@ -296,7 +298,7 @@ nfunc = 1
 nexp = 1
 npoly = nfunc - nexp
 
-FuncFit = np.zeros(nfunc*3,dtype=long)
+FuncFit = np.zeros(nfunc*3,dtype=np.float64)
 
 for n in range(0,nexp):
     FuncFit[3*n:3*n+3] = 1.
@@ -304,7 +306,7 @@ for n in range(0,nexp):
 for n in range (nexp,nfunc):
     FuncFit[3*n:3*n+3] = 0.
 
-Avector = np.zeros(len(FuncFit),dtype=np.longdouble)
+Avector = np.zeros(len(FuncFit),dtype=np.float64)
 for k in range(2,len(FuncFit),3):
     Avector[k]=1.
 
@@ -314,19 +316,20 @@ del n,k,nfunc,npoly,nexp
 #Xvect = np.copy(Xvect3)
 #Yvect = np.copy(Y_act3+Ycos_error3)
 
-#Yerr = np.zeros(len(Yvect),dtype=np.longdouble)
-#Yerr[:] = np.std(Yvect,dtype=np.longdouble)
+#Yerr = np.zeros(len(Yvect),dtype=np.float64)
+#Yerr[:] = np.std(Yvect,dtype=np.float64)
 
+print('calling MRQMIN 3')
 Asolv3, chi_sq3,covar3,alpha3 = rfm.mrqmin(Avector,Xvect,Yvect,Yerr,FuncFit,error)
 #Asolv2 = np.zeros(len(Avector))
 
-Yfunc3 = np.zeros(len(Xtrue),dtype=np.longdouble)
-dydx3 = np.zeros([len(Xtrue),len(Avector)],dtype=np.longdouble)
+Yfunc3 = np.zeros(len(Xtrue),dtype=np.float64)
+dydx3 = np.zeros([len(Xtrue),len(Avector)],dtype=np.float64)
 
 Yfunc3, dydx3 = rfm.grand_func(Asolv3,Xtrue,FuncFit,error)
 
-Ypoints3 = np.zeros(len(Xvect),dtype=np.longdouble)
-dydum3 = np.zeros([len(Xvect),len(Avector)],dtype=np.longdouble)
+Ypoints3 = np.zeros(len(Xvect),dtype=np.float64)
+dydum3 = np.zeros([len(Xvect),len(Avector)],dtype=np.float64)
 
 Ypoints3, dydum3 = rfm.grand_func(Asolv3,Xvect,FuncFit,error)
 
@@ -338,7 +341,7 @@ plt.plot(Xtrue,Ytrue,color='black')
 
 plt.suptitle('Solutions 1 var (black=actual):\nblue=poly green=gauss red=expnt')
 plt.axis([x1,x2,y1,y2])
-plt.show()
+#plt.show()
 
 plt.savefig('redform_fit1var.png')
 
@@ -350,7 +353,7 @@ nfunc = 2
 nexp = 1
 npoly = nfunc - nexp
 
-FuncFit = np.zeros(nfunc*3,dtype=long)
+FuncFit = np.zeros(nfunc*3,dtype=np.float64)
 
 for n in range(0,nexp):
     FuncFit[3*n:3*n+3] = 2.
@@ -359,7 +362,7 @@ for n in range (nexp,nfunc):
     FuncFit[3*n:3*n+3] = 0.
 
 
-Avector = np.zeros(len(FuncFit),dtype=np.longdouble)
+Avector = np.zeros(len(FuncFit),dtype=np.float64)
 for k in range(2,len(FuncFit),3):
     Avector[k]=1.
 
@@ -370,16 +373,17 @@ Xvect = np.append(Xsave,Xsave)
 # and double length Xtrue
 XdoubleTrue = np.append(Xtrue,Xtrue)
 
+print('calling MRQMIN 4')
 Asolv4, chi_sq4,covar4,alpha4 = rfm.mrqmin(Avector,Xvect,Yvect,Yerr,FuncFit,error)
 #Asolv2 = np.zeros(len(Avector))
 
-Yfunc4 = np.zeros(len(Xtrue),dtype=np.longdouble)
-dydx4 = np.zeros([len(XdoubleTrue),len(Avector)],dtype=np.longdouble)
+Yfunc4 = np.zeros(len(Xtrue),dtype=np.float64)
+dydx4 = np.zeros([len(XdoubleTrue),len(Avector)],dtype=np.float64)
 
 Yfunc4,dydx4 = rfm.grand_func(Asolv4,XdoubleTrue,FuncFit,error)
 
-Ypoints4 = np.zeros(len(Xsave),dtype=np.longdouble)
-dydum4 = np.zeros([len(Xvect),len(Avector)],dtype=np.longdouble)
+Ypoints4 = np.zeros(len(Xsave),dtype=np.float64)
+dydum4 = np.zeros([len(Xvect),len(Avector)],dtype=np.float64)
 
 Ysum = 0
 
@@ -396,7 +400,7 @@ nfunc = 2
 nexp = 1
 npoly = nfunc - nexp
 
-FuncFit = np.zeros(nfunc*3,dtype=long)
+FuncFit = np.zeros(nfunc*3,dtype=np.float64)
 
 for n in range(0,nexp):
     FuncFit[3*n:3*n+3] = 1.
@@ -405,7 +409,7 @@ for n in range (nexp,nfunc):
     FuncFit[3*n:3*n+3] = 0.
 
 
-Avector = np.zeros(len(FuncFit),dtype=np.longdouble)
+Avector = np.zeros(len(FuncFit),dtype=np.float64)
 for k in range(2,len(FuncFit),3):
     Avector[k]=1.
 
@@ -413,19 +417,20 @@ del n,k,nfunc,npoly,nexp
 
 # Xvect is from before, double length
 
-#Yerr = np.zeros(len(Yvect),dtype=np.longdouble)
-#Yerr[:] = np.std(Yvect,dtype=np.longdouble)
+#Yerr = np.zeros(len(Yvect),dtype=np.float64)
+#Yerr[:] = np.std(Yvect,dtype=np.float64)
 
+print('calling MRQMIN 5')
 Asolv5, chi_sq5,covar5,alpha5 = rfm.mrqmin(Avector,Xvect,Yvect,Yerr,FuncFit,error)
 #Asolv2 = np.zeros(len(Avector))
 
-Yfunc5 = np.zeros(len(Xtrue),dtype=np.longdouble)
-dydx5 = np.zeros([len(XdoubleTrue),len(Avector)],dtype=np.longdouble)
+Yfunc5 = np.zeros(len(Xtrue),dtype=np.float64)
+dydx5 = np.zeros([len(XdoubleTrue),len(Avector)],dtype=np.float64)
 
 Yfunc5,dydx5 = rfm.grand_func(Asolv5,XdoubleTrue,FuncFit,error)
 
-Ypoints5 = np.zeros(len(Xsave),dtype=np.longdouble)
-dydum5 = np.zeros([len(Xvect),len(Avector)],dtype=np.longdouble)
+Ypoints5 = np.zeros(len(Xsave),dtype=np.float64)
+dydum5 = np.zeros([len(Xvect),len(Avector)],dtype=np.float64)
 
 Ypoints5,dydum5 = rfm.grand_func(Asolv5,Xvect,FuncFit,error)
 
@@ -439,7 +444,7 @@ nfunc = 2
 nexp = 2
 npoly = nfunc - nexp
 
-FuncFit = np.zeros(nfunc*3,dtype=long)
+FuncFit = np.zeros(nfunc*3,dtype=np.float64)
 
 for n in range(0,nexp):
     FuncFit[3*n:3*n+3] = 2.
@@ -447,7 +452,7 @@ for n in range(0,nexp):
 for n in range (nexp,nfunc):
     FuncFit[3*n:3*n+3] = 1.
 
-Avector = np.zeros(len(FuncFit),dtype=np.longdouble)
+Avector = np.zeros(len(FuncFit),dtype=np.float64)
 for k in range(2,len(FuncFit),3):
     Avector[k]=1.
 
@@ -455,16 +460,17 @@ del n,k,nfunc,npoly,nexp
 
 #Xvect is double length from above
 
+print('calling MRQMIN 6')
 Asolv6, chi_sq6,covar6,alpha6 = rfm.mrqmin(Avector,Xvect,Yvect,Yerr,FuncFit,error)
 #Asolv2 = np.zeros(len(Avector))
 
-Yfunc6 = np.zeros(len(Xtrue),dtype=np.longdouble)
-dydx6 = np.zeros([len(XdoubleTrue),len(Avector)],dtype=np.longdouble)
+Yfunc6 = np.zeros(len(Xtrue),dtype=np.float64)
+dydx6 = np.zeros([len(XdoubleTrue),len(Avector)],dtype=np.float64)
 
 Yfunc6,dydx6 = rfm.grand_func(Asolv6,XdoubleTrue,FuncFit,error)
 
-Ypoints6 = np.zeros(len(Xsave),dtype=np.longdouble)
-dydum6 = np.zeros([len(Xvect),len(Avector)],dtype=np.longdouble)
+Ypoints6 = np.zeros(len(Xsave),dtype=np.float64)
+dydum6 = np.zeros([len(Xvect),len(Avector)],dtype=np.float64)
 
 Ypoints6, dydum6 = rfm.grand_func(Asolv6,Xvect,FuncFit,error)
 
@@ -478,7 +484,7 @@ plt.plot(Xtrue,Ytrue,'black')
 #plt.suptitle('Fitting Forms')
 plt.suptitle('Solutions 2 var (black=actual):\nblue=poly+gauss green=expt+gauss red=poly+expt')
 plt.axis([x1,x2,y1,y2])
-plt.show()
+#plt.show()
 
 plt.savefig('fit_2var.png')
 
@@ -488,7 +494,7 @@ nfunc = 3
 nexp = 2
 npoly = nfunc - nexp
 
-FuncFit = np.zeros(nfunc*3,dtype=long)
+FuncFit = np.zeros(nfunc*3,dtype=np.float64)
 
 for n in range(0,nexp):
     FuncFit[3*n:3*n+3] = 1.
@@ -498,7 +504,7 @@ for n in range (nexp,nfunc):
 
 FuncFit = [2,2,2,1,1,1,0,0,0]
 
-Avector = np.zeros(len(FuncFit),dtype=np.longdouble)
+Avector = np.zeros(len(FuncFit),dtype=np.float64)
 for k in range(2,len(FuncFit),3):
     Avector[k]=1.
 
@@ -508,17 +514,18 @@ del n,k,nfunc,npoly,nexp
 Xvect = np.append(Xvect,Xsave)
 
 
+print('calling MRQMIN 7')
 Asolv7, chi_sq7,covar7,alpha7 = rfm.mrqmin(Avector,Xvect,Yvect,Yerr,FuncFit,error)
 
 XtripleTrue = np.append(XdoubleTrue,Xtrue)
 
-Yfunc7 = np.zeros(len(XtripleTrue),dtype=np.longdouble)
-dydx7 = np.zeros([len(XtripleTrue),len(Avector)],dtype=np.longdouble)
+Yfunc7 = np.zeros(len(XtripleTrue),dtype=np.float64)
+dydx7 = np.zeros([len(XtripleTrue),len(Avector)],dtype=np.float64)
 
 Yfunc7, dydx7 = rfm.grand_func(Asolv7,XtripleTrue,FuncFit,error)
 
-Ypoints7 = np.zeros(len(Xsave),dtype=np.longdouble)
-dydum7 = np.zeros([len(Xvect),len(Avector)],dtype=np.longdouble)
+Ypoints7 = np.zeros(len(Xsave),dtype=np.float64)
+dydum7 = np.zeros([len(Xvect),len(Avector)],dtype=np.float64)
 
 Ypoints7,dydum7 = rfm.grand_func(Asolv7,Xvect,FuncFit,error)
 
@@ -533,7 +540,7 @@ plt.plot(Xtrue,Ytrue,'black')
 #plt.suptitle('Fitting Forms')
 plt.suptitle('Solutions 3 var (black=actual):\nblue=poly+gauss+expt')
 plt.axis([x1,x2,y1,y2])
-plt.show()
+#plt.show()
 
 plt.savefig('fit_3var.png')
 # create scatter plot
@@ -578,7 +585,7 @@ ax6.plot(ax6.get_xlim(), ax6.get_ylim(), color='gray')
 ax6.set_xlabel('Model')
 ax6.set_title('gauss + expt')
 
-plt.show()
+#plt.show()
 plt.savefig('scatter.png')
 
 
@@ -592,7 +599,7 @@ plt.xlabel('Model')
 plt.ylabel('Obs')
 plt.title('exp + gauss + poly')
 
-plt.show()
+#plt.show()
 plt.savefig('scatter7.png')
 
 print('Done')
