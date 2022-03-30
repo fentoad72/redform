@@ -25,7 +25,7 @@ def gj_driver():
 
     for i in range(len(Bsolv)):
         Pmod[i],dPdx[i][:] = rfm.poly_func(Atrue[i][:],Bsolv[i])
-#        print 'i',i,Bsolv[i],Pmod[i],dPdx[i][:]
+#        print('i',i,Bsolv[i],Pmod[i],dPdx[i][:])
 
     #Xvect = np.copy(Bsolv)
     #Xvect = np.append(Xvect,(-1,-5,2,9))
@@ -122,7 +122,7 @@ for i in range(0,len(Xtrue)):
     Ygauss[i],dum3 = rfm.gauss_func(Bgauss,Xtrue[i])
     Ycos[i] =  0.5 *np.cos((Xtrue[i]*np.pi/np.sqrt(7.)))
     Ytrue[i] = Ytrue[i]  + Yexp[i]+ Ypoly[i] + Ygauss[i]
-    print i, Xtrue[i],Ytrue[i]
+    print(i, Xtrue[i],Ytrue[i])
 
 del i
 
@@ -217,7 +217,7 @@ Asolv1, chi_sq1,covar1, alpha1 = rfm.mrqmin(Avector,Xvect,Yvect,Yerr,FuncFit,err
 
 #for j in range(len(Xvect)):
 #    Emod[j],dEdx[j] = exp_func(Amatrix[j][:],Xvect[j])
-#    print 'j',j,Xvect,Emod[i],dEdx[i]
+#    print('j',j,Xvect,Emod[i],dEdx[i])
 
 ### Yfunc1 is the function created by the fit form
 
@@ -595,4 +595,5 @@ plt.title('exp + gauss + poly')
 plt.show()
 plt.savefig('scatter7.png')
 
-print 'Done'
+print('Done')
+

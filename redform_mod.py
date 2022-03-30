@@ -7,7 +7,6 @@ import matplotlib.pyplot as plt
 tiny = np.longdouble(1.e-6)  # small number to prevent divide by zero
 tiny_sq = tiny*tiny
 
-
 def grand_func(Avect,Xvect,FuncFit,error):
 
 #  pass-thru routine which calls function of form FuncFit
@@ -57,12 +56,12 @@ def grand_func(Avect,Xvect,FuncFit,error):
                 Xval, dfdx[i_gf][j_gf:j_gf+3] = gauss_func(Avect[j_gf:j_gf+3],Xvect[ii_gf])
 
             else:
-                print 'Function ',FuncFit,' not defined'
+                print('Function ',FuncFit,' not defined')
                 error = True
 
             Xsum[i_gf] += Xval
 
-#        print 'i_gf: ',i_gf,Xsum[i_gf]
+#        print('i_gf: ',i_gf,Xsum[i_gf])
 
     del i_gf,ii_gf,j_gf,Xval,nfunc_gf,index_gf
 
@@ -262,14 +261,14 @@ def mrqcof(Avect,Xvect,Yvect,Yerr,FuncFit,error):
 #
 #    for j in range(1,len(Avect)):
 #        for k in range(j):
-#            print j,k
+#            print(j,k)
 #            alpha[k,j]=alpha[j,k]
 
 
     if (error == True):
-        print 'Fitting Function Failed'
+        print('Fitting Function Failed')
     else:
-#        print 'Fitting Function Value:',Ymod
+#        print('Fitting Function Value:',Ymod)
         pass
 
     return alpha,beta,chi_sq
@@ -345,7 +344,7 @@ def gaussjordan(Amat,Bvect):
 # now divide by the pivot element
         if (Aloc[icol,icol] == 0.):
             error = True
-            print 'Warning: singular matrix in Gauss-Jordan'
+            print('Warning: singular matrix in Gauss-Jordan')
 #           Ainv[:][:] = -999
 #            Bsolv[:] = -999
 #
@@ -460,10 +459,10 @@ def mrqmin(Avect,Xvect,Yvect,Yerr,FuncFit,error):
 
 
 # get initial alpha and beta from mrqcof
-    print 'initializing...'
+    print('initializing...')
     alpha,beta,chi_sq = mrqcof(Amat_loc,Xvect,Yvect,Yerr,FuncFit,error)
-#    print 'MRQ IN: ', Amat_loc,Yerr
-#    print 'MRQ OUt ',alpha,beta,chi_sq
+#    print('MRQ IN: ', Amat_loc,Yerr)
+#    print('MRQ OUt ',alpha,beta,chi_sq)
 
 #Copy Amatrix to Alast
     Atry = np.copy(Amat_loc)
@@ -508,8 +507,8 @@ def mrqmin(Avect,Xvect,Yvect,Yerr,FuncFit,error):
 
 # check for lamda = 0 (converged)
         if (lamda == 0.):
-            print 'lamda = 0.'
-            print 'chi_sq=',chi_sq, chi_last, chi_min
+            print('lamda = 0.')
+            print('chi_sq=',chi_sq, chi_last, chi_min)
             return Amat_loc,chi_sq,covar,alpha
 
         Atry = Amat_loc + delta_A
@@ -519,7 +518,7 @@ def mrqmin(Avect,Xvect,Yvect,Yerr,FuncFit,error):
 #        print 'MRQ IN: ', Atry,Yerr
 #        print 'MRQ OUt ',covar,delta_A,chi_sq
 
-        print 'Try: ',ntry,chi_sq, chi_last,chi_min, lamda
+        print('Try: ',ntry,chi_sq, chi_last,chi_min, lamda)
 
 # see if chi-sq decreased
         if (chi_sq < chi_min):
@@ -532,10 +531,10 @@ def mrqmin(Avect,Xvect,Yvect,Yerr,FuncFit,error):
 
 # now check for convergence
             if ((chi_sq <= chi_min) and (abs(chi_sq - chi_min) <= np.sqrt(tiny))):
-                print 'Converged by small decrease'
-                print 'Converged: ntries =',ntry
-                print 'chi sq, chi last:',chi_sq,chi_min
-                print 'chi_last:',chi_last
+                print('Converged by small decrease')
+                print('Converged: ntries =',ntry)
+                print('chi sq, chi last:',chi_sq,chi_min)
+                print('chi_last:',chi_last)
                 lamda = 0.0
 
             chi_min = chi_sq
@@ -544,23 +543,23 @@ def mrqmin(Avect,Xvect,Yvect,Yerr,FuncFit,error):
             lamda = 10.*lamda
 
             if ( (chi_sq <= chi_last) and (abs(chi_sq - chi_last) <= tiny)):
-                print 'Converged by machine error:',tiny
-                print 'Converged: ntries =',ntry
-                print 'chi_sq=',chi_sq, chi_last
-                print 'chi_min =',chi_min
+                print('Converged by machine error:',tiny)
+                print('Converged: ntries =',ntry)
+                print('chi_sq=',chi_sq, chi_last)
+                print('chi_min =',chi_min)
                 Amat_loc = Atry
                 lamda = 0.
 
             chi_sq = chi_min
 
         pass
-#        print 'Not converged yet'
+#        print('Not converged yet')
 
 
 
 
-    print 'No convergence!'
+    print('No convergence!')
     error = True
-    print 'chi_sq=',chi_sq,chi_last,chi_min, lamda
+    print('chi_sq=',chi_sq,chi_last,chi_min, lamda)
 
     return Atry,chi_sq,covar,alpha
